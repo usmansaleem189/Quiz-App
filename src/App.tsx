@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import QuestionCard from './components/QuestionCard';
 import { fetchQuizQuestions } from './API';
 import { Difficulty, QuestionState } from './API';
-import { GlobalStyle, Wrapper } from './App.styles'
+// import { GlobalStyle, Wrapper } from './App.styles'
+import styles from './App.module.css';
 
 
 export type AnswerObject = {
@@ -76,17 +77,18 @@ function App() {
   }
 
   return (
-    <>
-      <GlobalStyle />
-      <Wrapper >
+    // <>
+    <div className={styles.container}>
+      {/* <GlobalStyle /> */}
+      {/* <Wrapper > */}
         <h1>React Quiz</h1>
         {gameOver || userAnswers.length === TOTAL_QUESTIONS ? (
-          <button className="start" onClick={startTrivia}>
+          <button className={styles.start} onClick={startTrivia}>
             Start
           </button>
         ) : null}
 
-        {!gameOver ? <p className="score">Score: {score}</p> : null}
+        {!gameOver ? <p className={styles.score}>Score: {score}</p> : null}
 
         {/* {loading ? <p>Loading Question ...</p> : null} */}
         {loading && <p>Loading Question ...</p>}
@@ -101,12 +103,13 @@ function App() {
           />
         )}
         {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 ? (
-          <button className="next" onClick={nextQuestion}>
+          <button className={styles.next} onClick={nextQuestion}>
             Next Question
           </button>
         ) : null}
-      </Wrapper>
-    </>
+      {/* </Wrapper> */}
+      </div>
+    // {/* </> */}
   );
 }
 

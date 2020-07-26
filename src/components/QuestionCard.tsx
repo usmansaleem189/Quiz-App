@@ -1,6 +1,7 @@
 import React from 'react';
-import {AnswerObject} from '../App';
-import {Wrapper, ButtonWrapper} from './QuestionCard.styles';
+import { AnswerObject } from '../App';
+// import {Wrapper, ButtonWrapper} from './QuestionCard.styles';
+import styles from './QuestionCard.module.css';
 
 type Props = {
     question: string;
@@ -12,33 +13,45 @@ type Props = {
 }
 
 
-const QuestionCard: React.FC<Props> = ({ 
-    question, 
-    answers, 
-    callback, 
-    userAnswer, 
-    questionNr, 
-    totalQuestions 
+const QuestionCard: React.FC<Props> = ({
+    question,
+    answers,
+    callback,
+    userAnswer,
+    questionNr,
+    totalQuestions
 }) => (
-    <Wrapper>
-        <p className="number">
-            Question: {questionNr} / {totalQuestions}
-        </p>
-        <p dangerouslySetInnerHTML={{__html: question }} />
-        <div>
-            {answers.map((answer) => (
-                <ButtonWrapper 
-                key={answer}
-                correct={userAnswer?.correctAnswer === answer}
-                userClicked={userAnswer?.answer === answer}
-                >
-                    <button disabled={userAnswer ? true : false} value={answer} onClick={callback}>
-                        <span dangerouslySetInnerHTML = {{__html: answer}} />
-                    </button>
-                </ButtonWrapper>
-            ))}
+        <div className={styles.CardContainer}>
+            <p>
+                Question: {questionNr} / {totalQuestions}
+            </p>
+            <p dangerouslySetInnerHTML={{ __html: question }} />
+            <div>
+                {answers.map((answer) => {
+                    const class_name = userAnswer ?
+                        (userAnswer.answer === answer && userAnswer.answer === userAnswer.correctAnswer ?
+                            styles.green :
+                            userAnswer.answer === answer && userAnswer.answer !== userAnswer.correctAnswer ?
+                                styles.red :
+                                "") :
+                        "";
+                    return (
+                        <div className={styles.ButtonContainer}
+                            key={answer}
+                        // correct={userAnswer?.correctAnswer === answer}
+                        // userClicked={userAnswer?.answer === answer}
+                        >
+                            {/* <button className={userAnswer ? (userAnswer.answer === answer && userAnswer.answer === userAnswer.correctAnswer? styles.green : userAnswer.answer === answer && userAnswer.answer !== userAnswer.correctAnswer ? styles.red : "") : ""} disabled={userAnswer ? true : false} value={answer} onClick={callback} > */}
+                            <button className={class_name} disabled={userAnswer ? true : false} value={answer} onClick={callback} >
+
+                                <span dangerouslySetInnerHTML={{ __html: answer }} />
+                            </button>
+                        </div>
+                    )
+                }
+                )}
+            </div>
         </div>
-    </Wrapper>
-)
+    )
 
 export default QuestionCard;
